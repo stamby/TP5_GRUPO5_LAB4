@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PantallaPrincipal extends JFrame {
 
@@ -25,6 +27,14 @@ public class PantallaPrincipal extends JFrame {
 		menuBar.add(mnPeliculas);
 		
 		JMenuItem mntmAgregar = new JMenuItem("Agregar");
+		mntmAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PanelAgregarPeliculas panel = new PanelAgregarPeliculas();
+				contentPane.add(panel);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
 		mnPeliculas.add(mntmAgregar);
 		
 		JMenuItem mntmListar = new JMenuItem("Listar");
