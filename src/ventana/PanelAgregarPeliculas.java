@@ -2,19 +2,31 @@ package ventana;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+//import ventana.Peliculas;
+
 import javax.swing.JComboBox;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+//import java.awt.TextField;
+import java.awt.event.ActionEvent;
 
 public class PanelAgregarPeliculas extends JPanel {
-	private JTextField textField;
+
+	private static final long serialVersionUID = 1L;
+	private JTextField textFieldNombre;
 	private JLabel lblId;
 	private JLabel lblNombre;
 	private JLabel lblGenero;
 	private JLabel lblNumeroId;
-	private JComboBox cbGeneros;
+	private JComboBox<Genero> cbGeneros;
 	private JButton btnAceptar;
-	private Peliculas pelicula;
+	//private Peliculas pelicula;
+	private Genero genero;
+	
 	
 	
 	public PanelAgregarPeliculas() {
@@ -32,30 +44,68 @@ public class PanelAgregarPeliculas extends JPanel {
 		lblGenero.setBounds(71, 134, 69, 20);
 		add(lblGenero);
 		
-		pelicula = new Peliculas();
+		//pelicula = new Peliculas();
 		
-		lblNumeroId = new JLabel("");
+		lblNumeroId = new JLabel(Integer.toString(Peliculas.siguienteid()));
 		lblNumeroId.setBounds(218, 26, 69, 20);
-		lblNumeroId.setText(Integer.toString(pelicula.getId()));
+		//lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
 		add(lblNumeroId);
 		
-		textField = new JTextField();
-		textField.setBounds(218, 72, 146, 26);
-		add(textField);
-		textField.setColumns(10);
+		textFieldNombre = new JTextField();
+		textFieldNombre.setBounds(218, 72, 146, 26);
+		add(textFieldNombre);
+		textFieldNombre.setColumns(10);
 		
-		cbGeneros = new JComboBox();
+		cbGeneros = new JComboBox<Genero>();
 		cbGeneros.setBounds(218, 131, 181, 26);
-		cbGeneros.addItem("Seleccione un genero");
-		cbGeneros.addItem("Terror");
-		cbGeneros.addItem("Accion");
-		cbGeneros.addItem("Suspenso");
-		cbGeneros.addItem("Romantica");
+		cbGeneros.addItem(new Genero(0, "Seleccione un genero"));
+		cbGeneros.addItem(new Genero( 1, "Terror"));
+		cbGeneros.addItem(new Genero( 2, "Accion"));
+		cbGeneros.addItem(new Genero( 3, "Suspenso"));
+		cbGeneros.addItem(new Genero( 4, "Romantica"));
 		add(cbGeneros);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(71, 187, 115, 29);
+		btnAceptar.addActionListener(new evtBtnAgregar(textFieldNombre, cbGeneros));
+
 		add(btnAceptar);
 
 	}
+	
+	public void reiniciarJPanelAgregar() {
+		lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
+		textFieldNombre.setText("");
+		cbGeneros.setSelectedIndex(0);
+	}
+	
+	class evtBtnAgregar implements ActionListener
+	{
+		private JTextField Nombre;
+		private JComboBox<Genero> JCBGenero;
+		public evtBtnAgregar(JTextField Nombre, JComboBox<Genero> JCBGenero) {
+			this.Nombre = Nombre;
+			this.JCBGenero = JCBGenero;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String Mensaje="";
+			if(Nombre.getText().isEmpty()) {Mensaje = "- El TextFiel Nombre esta Vacío "; }
+			if(JCBGenero.getSelectedIndex() == 0){ Mensaje += "\n- No se ha Seleccionado Género"; }
+			if(Mensaje.isEmpty() == false) {//Si la Variable Mensaje se encuentra no vacía se muestra en el mensaje.
+				JOptionPane.showConfirmDialog(null, Mensaje ); } else {
+					Peliculas peli = new Peliculas();
+					peli.setNombre(Nombre.getText().trim());
+					peli.setGenero(JCBGenero.getSelectedIndex(), ((Genero)JCBGenero.getSelectedItem()).getDescripcion());
+					//Muestro el Mensaje de la confirmacion de la pelicula.
+					JOptionPane.showMessageDialog(null, peli.toString(), "Pelicula agregada", JOptionPane.PLAIN_MESSAGE);	
+					reiniciarJPanelAgregar();
+				}
+		}
+	}
+	
+	
+
 }
