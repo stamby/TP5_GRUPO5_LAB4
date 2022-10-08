@@ -2,6 +2,7 @@ package ventana;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -11,6 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.TreeSet;
 //import java.awt.TextField;
 import java.awt.event.ActionEvent;
 
@@ -24,12 +27,13 @@ public class PanelAgregarPeliculas extends JPanel {
 	private JLabel lblNumeroId;
 	private JComboBox<Genero> cbGeneros;
 	private JButton btnAceptar;
-	//private Peliculas pelicula;
-	private Genero genero;
+	private JList list;
+	private TreeSet<Peliculas> ListPeliculas = new TreeSet<Peliculas>();
+	private DefaultListModel<Peliculas> dlModel;
 	
 	
 	
-	public PanelAgregarPeliculas() {
+	public void AgregarPeliculas() {
 		setLayout(null);
 		
 		lblId = new JLabel("ID");
@@ -72,7 +76,17 @@ public class PanelAgregarPeliculas extends JPanel {
 		add(btnAceptar);
 
 	}
-	
+	@SuppressWarnings("unchecked")
+	public PanelAgregarPeliculas() {
+		AgregarPeliculas();
+
+		list = new JList<Peliculas>();
+		dlModel = new DefaultListModel<Peliculas>();
+		list.setModel(dlModel);
+	}
+	public void setDefaultListModel(DefaultListModel<Peliculas> listModelRecibido) {
+		this.dlModel = listModelRecibido;
+	}
 	public void reiniciarJPanelAgregar() {
 		lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
 		textFieldNombre.setText("");
@@ -94,13 +108,23 @@ public class PanelAgregarPeliculas extends JPanel {
 			String Mensaje="";
 			if(Nombre.getText().isEmpty()) {Mensaje = "- El TextFiel Nombre esta Vacío "; }
 			if(JCBGenero.getSelectedIndex() == 0){ Mensaje += "\n- No se ha Seleccionado Género"; }
+			
+			
 			if(Mensaje.isEmpty() == false) {//Si la Variable Mensaje se encuentra no vacía se muestra en el mensaje.
+				
 				JOptionPane.showConfirmDialog(null, Mensaje ); } else {
 					Peliculas peli = new Peliculas();
 					peli.setNombre(Nombre.getText().trim());
 					peli.setGenero(JCBGenero.getSelectedIndex(), ((Genero)JCBGenero.getSelectedItem()).getDescripcion());
 					//Muestro el Mensaje de la confirmacion de la pelicula.
-					JOptionPane.showMessageDialog(null, peli.toString(), "Pelicula agregada", JOptionPane.PLAIN_MESSAGE);	
+					JOptionPane.showMessageDialog(null, peli.toString(), "Pelicula agregada", JOptionPane.PLAIN_MESSAGE);
+					
+
+
+					ListPeliculas.add(peli);
+					dlModel.addElement(peli);
+					
+
 					reiniciarJPanelAgregar();
 				}
 		}

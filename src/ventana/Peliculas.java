@@ -1,5 +1,7 @@
 package ventana;
 
+import java.util.Objects;
+
 //import ventana.Genero;
 
 public class Peliculas extends Genero implements Comparable<Peliculas>{
@@ -9,9 +11,8 @@ public class Peliculas extends Genero implements Comparable<Peliculas>{
 	
 	public Peliculas() {
 		super();
-		//id=siguienteid();// Lo comento por generar que al reiniciar la funcion siguiente id se ejecuta dos veces.
-		setNombre("");
-		System.out.println("Pase por el constructor Peliculas vacio");
+		id=siguienteid();
+		setNombre("");		
 	}
 	
 	public Peliculas(int id, String Nombre) {
@@ -19,19 +20,16 @@ public class Peliculas extends Genero implements Comparable<Peliculas>{
 		nombre = Nombre;
 		//this.genero = genero;
 	}
+	public Peliculas(String descripcion, String genero, int idGen, String descripGen) {
+		super(idGen,descripGen);
+		id = siguienteid();
+		setNombre(descripcion);
+	}
 	public static int siguienteid() {
-		id ++;
-		return id;
+		
+		return id++;
 	}
 	
-	/*public static int getId() {
-		return id;
-	}*/
-
-	/*public static void setId(int id) {
-		Peliculas.id = id;
-	}*/
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -50,6 +48,8 @@ public class Peliculas extends Genero implements Comparable<Peliculas>{
 		return getNombre() + " / " + this.getGenero();
 	}
 
+
+	
 	@Override
 	public int compareTo(Peliculas o) {
 		// TODO Auto-generated method stub
