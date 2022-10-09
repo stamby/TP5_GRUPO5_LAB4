@@ -47,10 +47,8 @@ public class PanelAgregarPeliculas extends JPanel {
 		lblGenero = new JLabel("Genero");
 		lblGenero.setBounds(71, 134, 69, 20);
 		add(lblGenero);
-		
-		//pelicula = new Peliculas();
-		
-		lblNumeroId = new JLabel();//Integer.toString(Peliculas.siguienteid()));
+				
+		lblNumeroId = new JLabel();
 		lblNumeroId.setBounds(218, 26, 69, 20);
 		if(Peliculas.get_Id() == 0) {
 			lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
@@ -127,13 +125,10 @@ public class PanelAgregarPeliculas extends JPanel {
 					peli.setGenero(JCBGenero.getSelectedIndex(), ((Genero)JCBGenero.getSelectedItem()).getDescripcion());
 					//Muestro el Mensaje de la confirmacion de la pelicula.
 					JOptionPane.showMessageDialog(null, peli.toString(), "Pelicula agregada", JOptionPane.PLAIN_MESSAGE);
-					
-
 
 					ListPeliculas.add(peli);
 					dlModel.addElement(peli);
 					
-
 					reiniciarJPanelAgregar();
 				}
 		}
