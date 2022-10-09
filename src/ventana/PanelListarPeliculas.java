@@ -3,6 +3,7 @@ package ventana;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -14,9 +15,12 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class PanelListarPeliculas extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
 	private JList<Peliculas> jList;
 	private DefaultListModel<Peliculas> listModel;
@@ -56,6 +60,14 @@ public class PanelListarPeliculas extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		jList = new JList<Peliculas>();
+		jList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (jList.getSelectedIndex() != -1) {
+					listModel.remove(jList.getSelectedIndex());
+					JOptionPane.showMessageDialog(null, "Se eleimino la Pelicula Seleccionada");
+				}
+			}
+		});
 		listModel = new DefaultListModel<Peliculas>();
 		jList.setModel(Principal.listModel);
 		jList.setFont(new Font("Tahoma", Font.PLAIN, 22));
