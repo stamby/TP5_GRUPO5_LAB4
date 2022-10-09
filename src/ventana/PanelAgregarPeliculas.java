@@ -130,8 +130,16 @@ public class PanelAgregarPeliculas extends JPanel {
 					
 
 
+					if (ListPeliculas.size() == 0)
+						for (int i = 0; i < dlModel.size(); i ++)
+							ListPeliculas.add(dlModel.elementAt(i));
+					
 					ListPeliculas.add(peli);
-					dlModel.addElement(peli);
+					dlModel.clear();
+					for (Peliculas i : ListPeliculas)
+					{
+						dlModel.addElement(i);
+					}
 					
 
 					reiniciarJPanelAgregar();
