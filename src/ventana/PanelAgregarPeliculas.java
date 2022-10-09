@@ -50,9 +50,17 @@ public class PanelAgregarPeliculas extends JPanel {
 		
 		//pelicula = new Peliculas();
 		
-		lblNumeroId = new JLabel(Integer.toString(Peliculas.siguienteid()));
+		lblNumeroId = new JLabel();//Integer.toString(Peliculas.siguienteid()));
 		lblNumeroId.setBounds(218, 26, 69, 20);
-		//lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
+		if(Peliculas.get_Id() == 0) {
+			lblNumeroId.setText(Integer.toString(Peliculas.siguienteid()));
+
+			System.out.println("Muestro lo que tiene LBLNUMEROID");
+			System.out.println(Peliculas.get_Id());
+		}else {
+			lblNumeroId.setText("" + Peliculas.get_Id());
+		}
+		lblNumeroId.getText();
 		add(lblNumeroId);
 		
 		textFieldNombre = new JTextField();
@@ -112,7 +120,8 @@ public class PanelAgregarPeliculas extends JPanel {
 			
 			if(Mensaje.isEmpty() == false) {//Si la Variable Mensaje se encuentra no vacía se muestra en el mensaje.
 				
-				JOptionPane.showConfirmDialog(null, Mensaje ); } else {
+				JOptionPane.showConfirmDialog(null, Mensaje ); 
+				} else {
 					Peliculas peli = new Peliculas();
 					peli.setNombre(Nombre.getText().trim());
 					peli.setGenero(JCBGenero.getSelectedIndex(), ((Genero)JCBGenero.getSelectedItem()).getDescripcion());
